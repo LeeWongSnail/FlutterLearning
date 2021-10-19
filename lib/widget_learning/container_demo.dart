@@ -22,7 +22,13 @@ class ContainerDemo extends StatelessWidget {
             height: 100.0,
             // 可以给container设置boxdecoration
             decoration: BoxDecoration(
-              color:  Color.fromRGBO(3, 54, 255, 1)
+              color:  Color.fromRGBO(3, 54, 255, 1),
+              // 设置边框 可以设置所有的 也可以单独设置某一个
+              border: Border.all(
+                  color: Colors.red,
+                  width: 3.0,
+                  style: BorderStyle.solid
+              ),
             ),
           )
         ],
