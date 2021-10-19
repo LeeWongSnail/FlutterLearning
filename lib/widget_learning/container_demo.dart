@@ -6,7 +6,16 @@ class ContainerDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey,
+      // color: Colors.grey,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0137835b98a43da80121a0f75cd75c.jpg%403000w_1l_0o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637239241&t=67663112e2a1185dac429b8153f14079'),
+          alignment: Alignment.topCenter,
+          fit: BoxFit.cover,
+          repeat: ImageRepeat.repeatY,
+          colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.6), BlendMode.hardLight)
+        ),
+      ),
       child: Row(
         // 设置主轴对齐位置
         mainAxisAlignment: MainAxisAlignment.center,
@@ -50,11 +59,11 @@ class ContainerDemo extends StatelessWidget {
               // gradient: RadialGradient(
               //   colors: [Color.fromRGBO(255, 0, 0, 1.0), Color.fromRGBO(0, 255, 0, 1.0)]
               // ),
-              gradient: LinearGradient(
-                  colors: [Color.fromRGBO(255, 0, 0, 1.0), Color.fromRGBO(0, 255, 0, 1.0)],
-                  begin: Alignment.topLeft,
-                  end:  Alignment.bottomRight,
-              ),
+              // gradient: LinearGradient(
+              //     colors: [Color.fromRGBO(255, 0, 0, 1.0), Color.fromRGBO(0, 255, 0, 1.0)],
+              //     begin: Alignment.topLeft,
+              //     end:  Alignment.bottomRight,
+              // ),
             ),
 
           )
