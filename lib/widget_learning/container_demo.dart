@@ -29,7 +29,11 @@ class ContainerDemo extends StatelessWidget {
                   width: 3.0,
                   style: BorderStyle.solid
               ),
+              // 设置圆角
+              // borderRadius: BorderRadius.circular(15)
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(30)),
             ),
+
           )
         ],
       ),
