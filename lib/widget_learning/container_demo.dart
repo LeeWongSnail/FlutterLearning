@@ -32,6 +32,18 @@ class ContainerDemo extends StatelessWidget {
               // 设置圆角
               // borderRadius: BorderRadius.circular(15)
               borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(
+                  // 从左上角开始的偏移量
+                  offset: Offset(10.0,10.0),
+                  // 阴影的颜色
+                  color: Color.fromRGBO(16, 20, 188, 1.0),
+                  // 阴影部分的半径
+                  blurRadius: 30,
+                  // 扩散 正数表示向左下角延伸 负数表示向左上角回收
+                  spreadRadius: 10,
+                ),
+              ],
             ),
 
           )
