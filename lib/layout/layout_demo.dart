@@ -25,42 +25,72 @@ class LayoutDemo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // Size Box 常用来包裹一个子控件， 默认子控件是由内部内容决定大小 但是添加了SizeBox后就可以设置为一个固定的大小
-          // 通常SizeBox也可以用来做两个空间之间的间隙
-          SizedBox(
-            height: 100,
-          ),
-          SizedBox(
-            width: 200.0,
-            height: 100.0,
-            child: Container(
-              //alignment 表示对齐， 可以通过x和y的坐标轴来设置
-              // 可以以通过Alignment中的几个枚举选项来进行设置例如 topCenter
-              // alignment: Alignment(1.0, 1.0),
-              alignment: Alignment.topCenter,
-              decoration: BoxDecoration(
-                  color: Colors.red
+          // 类似stackview 表示一组小控件
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              SizedBox(
+                width: 200.0,
+                height: 100.0,
+                child: Text('这是一个text', style: TextStyle(color: Colors.blue),),
               ),
-              child: Icon(Icons.ac_unit, color: Colors.white, size: 32,),
-            ),
-          ),
-          SizedBox(
-            width: 200.0,
-            height: 100.0,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.red
+              SizedBox(
+                width: 200,
+                height: 20,
+                child: Container(
+                  color: Colors.red,
+                ),
               ),
-              child: Icon(Icons.ac_unit, color: Colors.white, size: 32,),
-            ),
-          )
+              SizedBox(
+                width: 200.0,
+                height: 100.0,
+                child: Icon(Icons.airplay, size: 50,),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 }
-
-
+//
+// return Container(
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.center,
+// mainAxisAlignment: MainAxisAlignment.spaceAround,
+// children: [
+// // Size Box 常用来包裹一个子控件， 默认子控件是由内部内容决定大小 但是添加了SizeBox后就可以设置为一个固定的大小
+// // 通常SizeBox也可以用来做两个空间之间的间隙
+// SizedBox(
+// height: 100,
+// ),
+// SizedBox(
+// width: 200.0,
+// height: 100.0,
+// child: Container(
+// //alignment 表示对齐， 可以通过x和y的坐标轴来设置
+// // 可以以通过Alignment中的几个枚举选项来进行设置例如 topCenter
+// // alignment: Alignment(1.0, 1.0),
+// alignment: Alignment.topCenter,
+// decoration: BoxDecoration(
+// color: Colors.red
+// ),
+// child: Icon(Icons.ac_unit, color: Colors.white, size: 32,),
+// ),
+// ),
+// SizedBox(
+// width: 200.0,
+// height: 100.0,
+// child: Container(
+// decoration: BoxDecoration(
+// color: Colors.red
+// ),
+// child: Icon(Icons.ac_unit, color: Colors.white, size: 32,),
+// ),
+// )
+// ],
+// ),
+// );
 
 // return Column(
 // mainAxisAlignment: MainAxisAlignment.center,
