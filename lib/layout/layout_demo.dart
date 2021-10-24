@@ -34,6 +34,10 @@ class LayoutDemo extends StatelessWidget {
             width: 200.0,
             height: 100.0,
             child: Container(
+              //alignment 表示对齐， 可以通过x和y的坐标轴来设置
+              // 可以以通过Alignment中的几个枚举选项来进行设置例如 topCenter
+              // alignment: Alignment(1.0, 1.0),
+              alignment: Alignment.topCenter,
               decoration: BoxDecoration(
                   color: Colors.red
               ),
