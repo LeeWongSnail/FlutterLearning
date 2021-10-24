@@ -4,6 +4,7 @@ import 'stateful_Tabbar/each_view.dart';
 import 'router_animation/RouterPages.dart';
 import 'blur_effect/blur_widget.dart';
 import 'widget_learning/container_demo.dart';
+import 'layout/layout_demo.dart';
 
 void main() => runApp(BlurApp());
 
@@ -19,7 +20,7 @@ class BlurApp extends StatelessWidget {
         primarySwatch: Colors.lightBlue
       ),
       home: Scaffold(
-        body: ContainerDemo(),
+        body: LayoutDemo(),
       ),
     );
   }
