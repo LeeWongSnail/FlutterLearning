@@ -25,22 +25,28 @@ class LayoutDemo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // 类似stackview 表示一组小控件
+          // 类似stackview 表示一组小控件 可以使用Positioned精确的设置某一个小控件的位置
           Stack(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.topCenter,
             children: [
               SizedBox(
                 width: 200.0,
-                height: 100.0,
-                child: Text('这是一个text', style: TextStyle(color: Colors.blue),),
-              ),
-              SizedBox(
-                width: 200,
-                height: 20,
+                height: 200.0,
                 child: Container(
-                  color: Colors.red,
+                  decoration: BoxDecoration(
+                    color: Colors.blue
+                  ),
+                  child: Text('这是一个text', style: TextStyle(color: Colors.blue,backgroundColor: Colors.grey),),
                 ),
               ),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 0, top: 10,),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 10, top: 20,),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 20, top: 30,),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 60, top: 40,),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 70, top: 50,),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 30, top: 60,),
+              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 50, top: 70,),
+
               SizedBox(
                 width: 200.0,
                 height: 100.0,
