@@ -10,9 +10,13 @@ class LayoutDemo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // AspectRatio 可以设置某个视图的宽高比
-          AspectRatio(aspectRatio: 16.0/4, child: Container(
-            color: Color.fromRGBO(3, 54, 255, 1.0),
-          ),),
+          // AspectRatio(aspectRatio: 16.0/4, child: Container(
+          //   color: Color.fromRGBO(3, 54, 255, 1.0),
+          // ),),
+          // 给子控件设置宽高的约束
+          ConstrainedBox(constraints: BoxConstraints(minHeight: 200, maxWidth: 200.0), child: Container(
+            color: Colors.blue,
+          ),)
         ],
       ),
     );
