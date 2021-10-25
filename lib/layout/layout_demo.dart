@@ -5,60 +5,80 @@ class LayoutDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Column(
-    //   // 主轴的对齐方式 如果是Row则是有一个从左到右的 如果是Column则是有一个从上往下的
-    //   //  start 主轴开始的方向  end 主轴结束的方向
-    //   // spacebetween 将剩余空间在对象之间均匀放置
-    //   // spacearound 将剩余空间放在对象直接以及左右两边
-    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //   // 交叉轴 交叉轴为与主轴垂直的轴
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   children: [
-    //     IconBadge(Icons.pool),
-    //     IconBadge(Icons.air_sharp, size: 48,),
-    //     IconBadge(Icons.email),
-    //   ],
-    // );
-
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // 类似stackview 表示一组小控件 可以使用Positioned精确的设置某一个小控件的位置
-          Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              SizedBox(
-                width: 200.0,
-                height: 200.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue
-                  ),
-                  child: Text('这是一个text', style: TextStyle(color: Colors.blue,backgroundColor: Colors.grey),),
-                ),
-              ),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 0, top: 10,),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 10, top: 20,),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 20, top: 30,),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 60, top: 40,),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 70, top: 50,),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 30, top: 60,),
-              Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 50, top: 70,),
-
-              SizedBox(
-                width: 200.0,
-                height: 100.0,
-                child: Icon(Icons.airplay, size: 50,),
-              ),
-            ],
-          ),
+          // AspectRatio 可以设置某个视图的宽高比
+          AspectRatio(aspectRatio: 16.0/4, child: Container(
+            color: Color.fromRGBO(3, 54, 255, 1.0),
+          ),),
         ],
       ),
     );
   }
 }
+
+
+// class LayoutDemo extends StatelessWidget {
+//   const LayoutDemo({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // return Column(
+//     //   // 主轴的对齐方式 如果是Row则是有一个从左到右的 如果是Column则是有一个从上往下的
+//     //   //  start 主轴开始的方向  end 主轴结束的方向
+//     //   // spacebetween 将剩余空间在对象之间均匀放置
+//     //   // spacearound 将剩余空间放在对象直接以及左右两边
+//     //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//     //   // 交叉轴 交叉轴为与主轴垂直的轴
+//     //   crossAxisAlignment: CrossAxisAlignment.start,
+//     //   children: [
+//     //     IconBadge(Icons.pool),
+//     //     IconBadge(Icons.air_sharp, size: 48,),
+//     //     IconBadge(Icons.email),
+//     //   ],
+//     // );
+//
+//     return Container(
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//         children: [
+//           // 类似stackview 表示一组小控件 可以使用Positioned精确的设置某一个小控件的位置
+//           Stack(
+//             alignment: Alignment.topCenter,
+//             children: [
+//               SizedBox(
+//                 width: 200.0,
+//                 height: 200.0,
+//                 child: Container(
+//                   decoration: BoxDecoration(
+//                     color: Colors.blue
+//                   ),
+//                   child: Text('这是一个text', style: TextStyle(color: Colors.blue,backgroundColor: Colors.grey),),
+//                 ),
+//               ),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 0, top: 10,),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 10, top: 20,),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 20, top: 30,),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 60, top: 40,),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 70, top: 50,),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 30, top: 60,),
+//               Positioned(child: Icon(Icons.ac_unit, color: Colors.white, size: 16,), right: 50, top: 70,),
+//
+//               SizedBox(
+//                 width: 200.0,
+//                 height: 100.0,
+//                 child: Icon(Icons.airplay, size: 50,),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 //
 // return Container(
 // child: Column(
