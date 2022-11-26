@@ -8,7 +8,7 @@ Flutter慢慢的已经成为移动端开发人员的一项必备技能，之前�
 
 这里主要参考的是[官方文档](https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen),当然在这个过程中也遇到了很多问题。这里也是一个记录。
 
-我的文章在[这里]()
+我的文章在[这里](https://github.com/LeeWongSnail/FlutterLearning/blob/main/Flutter%E9%9B%86%E6%88%90/flutter-nativeJumpFlutter.md)
 
 我的Demo在[这里]()
 
