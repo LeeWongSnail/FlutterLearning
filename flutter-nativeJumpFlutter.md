@@ -403,7 +403,7 @@ Too Young Too Simple,怎么可能这么顺利，我们来看下遇到的问题�
 
 至此我们已经实现了`原生跳转flutter`这一目标，后续我们会继续看`flutter跳转原生`以及`原生和flutter之间的参数传递`。
 
-![nativetoflutter]()
+![nativetoflutter](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/nativetoflutter.gif)
 
 
 
