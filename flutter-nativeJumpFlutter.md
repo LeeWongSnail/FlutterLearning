@@ -13,7 +13,7 @@
 
 目前我的已有项目FlutterDemo已经存在了，所以我需要在同目录下创建一个my_flutter目录用来存放flutter相关代码
 
-![flutterdemobefore]()
+![flutterdemobefore](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterDirectorybefore.png)
 
 我们通过：
 
@@ -22,7 +22,7 @@ flutter create --template module my_flutter
 ```
 命令来创建我们的my_flutter目录
 
-![createfluttermodulecmd]()
+![createfluttermodulecmd](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/createfluttermodulecmd.png)
 
 创建后的目录结构基本如下
 
@@ -100,7 +100,7 @@ end
 
 我们在自己的flutterDemo项目目录下执行pod install。
 
-![flutterpodinstall]()
+![flutterpodinstall](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterpodinstall.png)
 
 `提示`: 如果后续在`my_flutter/pubspec.yaml`中改变了改变了`Flutter plugin` 依赖，需要在` Flutter module` 目录(my_flutter)运行 `flutter pub get`，来更新会被`podhelper.rb` 脚本用到的` plugin `列表，然后再次在你的应用目录 `some/path/FlutterDemo` 运行 `pod install`.
 
@@ -139,13 +139,13 @@ podhelper.rb会把plugins, flutter.frameword以及App.frameword集成到我们�
 	</array>
 ```
 
-![flutterdebuginfo.plist]()
+![flutterdebuginfo.plist](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterdebuginfoplist.png)
 
 #### 修改Build Settings
 
 为了让我们的修改生效，我们还需要在Build Settings中进行配置
 
-![infoplistbuildsettings]()
+![infoplistbuildsettings](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/infoplistbuildsettings.png)
 
 至此我们的项目配置就完成了，下面我们开始向页面中添加flutter页面代码
 
@@ -201,6 +201,7 @@ class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
 
 - 调用flutterEngine run方法，这种情况下flutterEngine明显`更长寿`,这里我们需要知道我们默认调用run方法时也表示我们调用flutter的代码默认入口函数是main（）
 - 注册新建的flutterEngine
+- 
 ```swift
 GeneratedPluginRegistrant.register(with: self.flutterEngine)
 ```
@@ -371,17 +372,17 @@ Too Young Too Simple,怎么可能这么顺利，我们来看下遇到的问题�
 ```
 添加后如下：
 
-![buildphaseaddrunscript]()
+![buildphaseaddrunscript](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/buildphaseaddrunscript.png)
 
 再次编译后，提示没有找到FLUTTER_ROOT路径，因此我们需要关联我们的Flutter路径
 
 在buildSetting中新增 User-Define setting
 
-![buldsettingaddsetting]()
+![buldsettingaddsetting](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/buildsettingsaddusersetting.jpg)
 
 新增结果如下:
 
-![userdefinesetting]()
+![userdefinesetting](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/userdefinesetting.png)
 
 这样我们再次进行编译就可以成功了
 
@@ -392,7 +393,7 @@ Too Young Too Simple,怎么可能这么顺利，我们来看下遇到的问题�
 
 很不幸我们还有这么一个问题,通过搜索我们发现，需要修改的是这里
 
-![errorno2fixmethod]()
+![errorno2fixmethod](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/errorno2fixmethod.png)
 
 主要是这里的LaunchScreenInterface,好奇怪为什么是修改这里，但是的确是生效了
 
