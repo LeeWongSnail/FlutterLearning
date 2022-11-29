@@ -57,10 +57,45 @@ class ViewController: UIViewController {
   }
 
   @objc func showFlutter() {
-    let flutterEngine = (UIApplication.shared.delegate as! AppDelegate).flutterEngine
-    let flutterViewController =
-        FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)
-    present(flutterViewController, animated: true, completion: nil)
+    let flutterViewController = FlutterViewController(project: nil, initialRoute: "myApp", nibName: nil, bundle: nil)
+      flutterViewController.view.backgroundColor = .white
+      let channelName = "native/flutter"
+      let methodChannel = FlutterMethodChannel(name: channelName, binaryMessenger: flutterViewController.binaryMessenger)
+      methodChannel.setMethodCallHandler { [weak self] call, result in
+          print(call.method)
+          
+          if call.method == "changeNavStatus", let arguements = call.arguments as? String {
+              if arguements.hasSuffix("show") {
+                  self?.navigationController?.setNavigationBarHidden(false, animated: true)
+              } else {
+                  self?.navigationController?.setNavigationBarHidden(true, animated: true)
+              }
+          } else if call.method == "backToViewController" {
+              self?.navigationController?.popViewController(animated: true)
+          } else if call.method == "iosFlutter1", let arguements = call.arguments as? [String: Any] {
+              print(arguements)
+              if let data = try? JSONSerialization.data(withJSONObject: arguements), let str = String(data: data, encoding: .utf8) {
+                  DispatchQueue.main.async {
+                      let alertController = UIAlertController(title: "flutter传递过来的参数", message: str, preferredStyle: .alert)
+                      alertController.addAction(UIAlertAction(title: "确定", style: .cancel))
+                      self?.present(alertController, animated: true)
+                  }
+              }
+          } else if call.method == "iosFlutter2" {
+              result("这是native返回给flutter的值")
+          } else if call.method == "iOSFlutter", let title = call.arguments as? String {
+              let firstVc = FirstViewController()
+              firstVc.title = title
+              self?.navigationController?.pushViewController(firstVc, animated: true)
+          }
+      }
+      navigationController?.pushViewController(flutterViewController, animated: true)
+      
+      DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
+          methodChannel.invokeMethod("iosInvokeFlutter", arguments: "argument from native") { result in
+              print(result)
+          }
+      }
   }
 }
 

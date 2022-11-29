@@ -17,6 +17,7 @@
 		60AFBBD82931BC4000182A07 /* FlutterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AFBBD72931BC4000182A07 /* FlutterManager.swift */; };
 		60AFBBDA2931BEEC00182A07 /* AppDelegate+Flutter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AFBBD92931BEEC00182A07 /* AppDelegate+Flutter.swift */; };
 		60AFBBDC29320CF800182A07 /* JumpTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AFBBDB29320CF800182A07 /* JumpTestViewController.swift */; };
+		60B9E2A42935E9A900E28636 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B9E2A32935E9A900E28636 /* FirstViewController.swift */; };
 		EC1E4301997E63534600D2A8 /* Pods_FlutterDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC187F495AECB903DA0FFB9 /* Pods_FlutterDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		60AFBBD72931BC4000182A07 /* FlutterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterManager.swift; sourceTree = "<group>"; };
 		60AFBBD92931BEEC00182A07 /* AppDelegate+Flutter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Flutter.swift"; sourceTree = "<group>"; };
 		60AFBBDB29320CF800182A07 /* JumpTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpTestViewController.swift; sourceTree = "<group>"; };
+		60B9E2A32935E9A900E28636 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		C3C6F7F66D368C8F28EE2996 /* Pods-FlutterDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlutterDemo.debug.xcconfig"; path = "Target Support Files/Pods-FlutterDemo/Pods-FlutterDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C7AE0A25D319C98B341780E6 /* Pods-FlutterDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlutterDemo.release.xcconfig"; path = "Target Support Files/Pods-FlutterDemo/Pods-FlutterDemo.release.xcconfig"; sourceTree = "<group>"; };
 		DEC187F495AECB903DA0FFB9 /* Pods_FlutterDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlutterDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,7 @@
 				60AFBBCD2931B89800182A07 /* Info-Release.plist */,
 				60AFBBD92931BEEC00182A07 /* AppDelegate+Flutter.swift */,
 				60AFBBDB29320CF800182A07 /* JumpTestViewController.swift */,
+				60B9E2A32935E9A900E28636 /* FirstViewController.swift */,
 			);
 			path = FlutterDemo;
 			sourceTree = "<group>";
@@ -123,8 +126,8 @@
 				60AFBBB22931B14100182A07 /* Sources */,
 				60AFBBB32931B14100182A07 /* Frameworks */,
 				60AFBBB42931B14100182A07 /* Resources */,
-				E67C541EF09E81370AA79A9F /* [CP] Embed Pods Frameworks */,
 				60AFBBDD293245C900182A07 /* ShellScript */,
+				7AF81AD722CA9C31427C8080 /* [CP-User] Embed Flutter Build my_flutter Script */,
 			);
 			buildRules = (
 			);
@@ -232,22 +235,15 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E67C541EF09E81370AA79A9F /* [CP] Embed Pods Frameworks */ = {
+		7AF81AD722CA9C31427C8080 /* [CP-User] Embed Flutter Build my_flutter Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FlutterDemo/Pods-FlutterDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FlutterDemo/Pods-FlutterDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
+			name = "[CP-User] Embed Flutter Build my_flutter Script";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FlutterDemo/Pods-FlutterDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../my_flutter/.ios/Flutter/flutter_export_environment.sh\"\nexport VERBOSE_SCRIPT_LOGGING=1 && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh embed_and_thin";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -262,6 +258,7 @@
 				60AFBBBA2931B14100182A07 /* AppDelegate.swift in Sources */,
 				60AFBBBC2931B14100182A07 /* SceneDelegate.swift in Sources */,
 				60AFBBDA2931BEEC00182A07 /* AppDelegate+Flutter.swift in Sources */,
+				60B9E2A42935E9A900E28636 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
