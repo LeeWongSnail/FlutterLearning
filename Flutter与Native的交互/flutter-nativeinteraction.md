@@ -5,7 +5,7 @@
 
 在我们开始介绍这篇文章之前，我们先来看下下面这张图片:
 
-![flutterAndClient]()
+![flutterAndClient](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterAndClient.png)
 
 也许你现在还不太清楚这中间的逻辑，可以先尝试记忆，然后再接下来的文章里，配合我们的说明，来更好的了解这张图。
 
@@ -155,7 +155,7 @@ typedef void (^FlutterEventSink)(id _Nullable event);
 
 首先 我们假设现在有一个场景，从Native跳转到Flutter 然后再从Flutter返回Native,具体场景如下图gif
 
-![FlutterMethodChannel]()
+![FlutterMethodChannel](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterMethodchannel.gif)
 
 
 首先我们实现在Native页面点击按钮跳转到Flutter的方法
@@ -206,7 +206,7 @@ appBar: AppBar(
 ```
 我们看到UI空间在点击返回时调用了backToViewController方法，而调用方式为: `methodChannel.invokeMethod('backToViewController');`,那么当我们点击返回按钮时Native代码的block中就会有回调:
 
-![backtopredidclick]()
+![backtopredidclick](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/backtopredidclick.png)
 
 这就是一个简单的方法调用，但是如果我们希望传递参数呢？
 
@@ -347,7 +347,7 @@ methodChannel.setMethodCallHandler((call) async {
 
 这样在外部调用到invokeMethod时：
 
-![nativecallflutter]()
+![nativecallflutter](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/nativecallflutter.png)
 
 因此 FlutterMethodChannel实际是一个双向的方法，既可以在iOS中主动调用Flutter中的方法，也可以在flutter主动调用Native的方法。
 
@@ -398,7 +398,7 @@ void initState() {
 ```
 这时候，就会触发Native中的代理方法
 
-![broadcaststream]()
+![broadcaststream](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/broadcaststream.png)
 
 我们可以获取到`argument=12345`，`events`为传入的`function`。这时候我们就可以在Native获取到flutter的方法。
 
@@ -411,7 +411,7 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 ```
 效果如下:
 
-![eventinvockinswift]()
+![eventinvockinswift](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/eventinvockinswift.gif)
 
 当然这个function我们也可以在回调里接收到后立即执行，这样flutter中就可以及时的获取到所需数据
 
