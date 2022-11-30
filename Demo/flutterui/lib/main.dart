@@ -109,7 +109,14 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text(
               'Hello',
-              textAlign: TextAlign.center, // 设置文本的对齐方式
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 20,
+                backgroundColor: Colors.yellow,
+                decoration: TextDecoration.overline,
+                decorationStyle: TextDecorationStyle.double,
+              ), // 设置文本的对齐方式
             ),
             const Text('Column has various properties to control how it sizes itself and how it positions its children. Here we use mainAxisAlignment to '
                 'center the children vertically; the main axis here is the vertical axis because Columns are vertical',
