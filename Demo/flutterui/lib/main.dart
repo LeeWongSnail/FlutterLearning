@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,6 +50,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  late TapGestureRecognizer _tapPressRecognizer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tapPressRecognizer = TapGestureRecognizer();
+  }
+
+  bool _toggle = false;
 
   void _incrementCounter() {
     setState(() {
@@ -60,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Container(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
+        color: Colors.blueGrey,
         child: Column(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
@@ -93,23 +106,57 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Hello',
+              textAlign: TextAlign.center, // 设置文本的对齐方式
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            const Text('Column has various properties to control how it sizes itself and how it positions its children. Here we use mainAxisAlignment to '
+                'center the children vertically; the main axis here is the vertical axis because Columns are vertical',
+              maxLines: 2, // 设置可以展示的最大行数
+              textAlign: TextAlign.left, // 设置对齐方式
+              overflow: TextOverflow.ellipsis, // 设置截断方式
             ),
+            const Text('Column is also a layout widget. It takes a list of children and arranges them vertically. By default, it sizes itself to fit its',
+            style: TextStyle(
+              color: Colors.redAccent, // 设置字体颜色
+              fontSize: 18, // 设置字体大小
+              height: 2, // 设置行高
+              backgroundColor: Colors.amber, // 设置文本的北京颜色，只有有文本的地方才有
+              decoration: TextDecoration.overline, // 设置 lineThrough 删除线  underline底部线 overline 顶部线
+              decorationStyle: TextDecorationStyle.double,
+            ),
+            ),
+            const Text.rich(TextSpan(
+              children: [
+                const TextSpan(
+                  text: 'Text 的所有文本内容只能按同一种样式，如果我们需要对一个 Text 内容的不同部分按照不同的样式显示，这时就可以使用TextSpan',
+                ),
+                const TextSpan(
+                  text: 'https://www.baidu.com',
+                  style: TextStyle(
+                    color: Colors.blue
+                  ),
+                ),
+              ],
+            )),
+            DefaultTextStyle(style: TextStyle(
+              color: Colors.green,
+              fontSize: 20,
+            ), textAlign: TextAlign.left, child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Hello World'),
+                Text('I am LeeWong'),
+                Text('I am Cendy', style: TextStyle(
+                  inherit: false,
+                  color: Colors.lightGreenAccent
+                ),),
+              ],
+            ))
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
