@@ -4,7 +4,7 @@
 
 flutter提供了一个form组件。对输入框进行分组。然后统一操作，如输入内容校验，输入框重置，以及输入内容保存。
 
-![flutterui_form]()
+![flutterui_form](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_form.png)
 
 ## Form
 

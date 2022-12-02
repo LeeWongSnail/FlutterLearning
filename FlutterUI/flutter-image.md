@@ -1,6 +1,6 @@
 # 图片展示
 
-![flutterui_image]()
+![flutterui_image](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui-image.png)
 
 ## 本地图片
 
@@ -8,7 +8,7 @@
 
 - 在项目的根目录下新建图片资源文件文件夹 images
 
-![flutterui_addlocalimage]()
+![flutterui_addlocalimage](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_addlocalimage.png)
 
 `注意`:这里不区分2x和3x图，因为在使用中都是直接使用文件名(包含.png)
 
