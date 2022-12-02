@@ -6,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -25,145 +25,57 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const ProgressRoute(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class ProgressRoute extends StatefulWidget {
+  const ProgressRoute({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _ProgressRouteState createState() => _ProgressRouteState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  late TapGestureRecognizer _tapPressRecognizer;
+class _ProgressRouteState extends State<ProgressRoute> with SingleTickerProviderStateMixin {
+
+  late AnimationController _animationController;
 
   @override
   void initState() {
+    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 10));
+    _animationController.forward();
+    _animationController.addListener(() => setState(() => {}));
     // TODO: implement initState
     super.initState();
-    _tapPressRecognizer = TapGestureRecognizer();
   }
 
-  bool _toggle = false;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void dispose() {
+    _animationController.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Container(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        color: Colors.blueGrey,
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(top: 100),
+      child: SingleChildScrollView(
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          children: <Widget>[
-            const Text(
-              'Hello',
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 20,
-                backgroundColor: Colors.yellow,
-                decoration: TextDecoration.overline,
-                decorationStyle: TextDecorationStyle.double,
-              ), // 设置文本的对齐方式
+          children: [
+            Padding(padding: EdgeInsets.all(20),
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.grey,
+                valueColor: ColorTween(begin: Colors.grey, end: Colors.blue).animate(_animationController),
+                value: _animationController.value,
+              ),
             ),
-            const Text('Column has various properties to control how it sizes itself and how it positions its children. Here we use mainAxisAlignment to '
-                'center the children vertically; the main axis here is the vertical axis because Columns are vertical',
-              maxLines: 2, // 设置可以展示的最大行数
-              textAlign: TextAlign.left, // 设置对齐方式
-              overflow: TextOverflow.ellipsis, // 设置截断方式
-            ),
-            const Text('Column is also a layout widget. It takes a list of children and arranges them vertically. By default, it sizes itself to fit its',
-            style: TextStyle(
-              color: Colors.redAccent, // 设置字体颜色
-              fontSize: 18, // 设置字体大小
-              height: 2, // 设置行高
-              backgroundColor: Colors.amber, // 设置文本的北京颜色，只有有文本的地方才有
-              decoration: TextDecoration.overline, // 设置 lineThrough 删除线  underline底部线 overline 顶部线
-              decorationStyle: TextDecorationStyle.double,
-            ),
-            ),
-            const Text.rich(TextSpan(
-              children: [
-                const TextSpan(
-                  text: 'Text 的所有文本内容只能按同一种样式，如果我们需要对一个 Text 内容的不同部分按照不同的样式显示，这时就可以使用TextSpan',
-                ),
-                const TextSpan(
-                  text: 'https://www.baidu.com',
-                  style: TextStyle(
-                    color: Colors.blue
-                  ),
-                ),
-              ],
-            )),
-            DefaultTextStyle(style: TextStyle(
-              color: Colors.green,
-              fontSize: 20,
-            ), textAlign: TextAlign.left, child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Hello World'),
-                Text('I am LeeWong'),
-                Text('I am Cendy', style: TextStyle(
-                  inherit: false,
-                  color: Colors.lightGreenAccent
-                ),),
-              ],
-            ))
           ],
         ),
       ),
     );
+
   }
 }
