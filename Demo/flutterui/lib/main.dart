@@ -57,24 +57,39 @@ class _ProgressRouteState extends State<ProgressRoute> with SingleTickerProvider
     super.dispose();
   }
 
+  Widget redBox = DecoratedBox(decoration: BoxDecoration(color: Colors.red));
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.only(top: 100),
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Box'),
+      ),
+      body: Container(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.all(20),
-              child: LinearProgressIndicator(
-                backgroundColor: Colors.grey,
-                valueColor: ColorTween(begin: Colors.grey, end: Colors.blue).animate(_animationController),
-                value: _animationController.value,
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: 50,
+                minWidth: 50,
+              ),
+              child: Container(
+                height: 80,
+                color: Colors.red,
               ),
             ),
+            Padding(padding: EdgeInsets.only(top: 20)),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: redBox,
+            ),
+            Padding(padding: EdgeInsets.only(top: 20)),
+            ConstrainedBox(constraints: BoxConstraints.tightFor(width: 50, height: 50), child: redBox,),
           ],
         ),
-      ),
+      )
+
     );
 
   }

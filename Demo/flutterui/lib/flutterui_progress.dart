@@ -96,3 +96,20 @@
 // }
 //
 //
+// return Container(
+// color: Colors.white,
+// padding: EdgeInsets.only(top: 100),
+// child: SingleChildScrollView(
+// child: Column(
+// children: [
+// Padding(padding: EdgeInsets.all(20),
+// child: LinearProgressIndicator(
+// backgroundColor: Colors.grey,
+// valueColor: ColorTween(begin: Colors.grey, end: Colors.blue).animate(_animationController),
+// value: _animationController.value,
+// ),
+// ),
+// ],
+// ),
+// ),
+// );
