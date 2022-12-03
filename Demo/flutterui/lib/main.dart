@@ -66,25 +66,44 @@ class _ProgressRouteState extends State<ProgressRoute> with SingleTickerProvider
         title: Text('Box'),
       ),
       body: Container(
-        color: Colors.green,
+        color: Colors.white,
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max, //有效，外层Colum高度为整个屏幕
-        children: <Widget>[
-          Expanded(child: Container(
-            color: Colors.red,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,//无效，内层Colum高度为实际高度
-              children: <Widget>[
-                Text("hello world "),
-                Text("I am Jack "),
+          children: [
+            Flex(direction: Axis.horizontal,
+              children: [
+                Expanded(child: Container(
+                  height: 30,
+                  color: Colors.red,
+                ),flex: 1,),
+                Expanded(child: Container(
+                  height: 30,
+                  color: Colors.green,
+                ),flex: 2,),
               ],
             ),
-          )),
-        ],
-      ),
-      ),
+            Padding(padding: EdgeInsets.only(top: 20),
+              child: SizedBox(
+                height: 100,
+                child: Flex(direction: Axis.vertical,
+                children: [
+                  Expanded(child: Container(
+                    height: 30,
+                    color: Colors.red,
+                  ), flex: 2,),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Expanded(child: Container(
+                    height: 60,
+                    color: Colors.yellow,
+                  ), flex: 1,)
+                ],
+                ),
+              ),
+            ),
+          ],
+        ),
+    ),
     );
-
   }
 }
