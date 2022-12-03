@@ -20,7 +20,7 @@ Stack(
 
 展示效果如下:
 
-![flutterui_stack]()
+![flutterui_stack](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_stack.png)
 
 我们来简单介绍下这几个属性:
 
@@ -48,7 +48,7 @@ positioned有left/top/right/bottom分别代表stack左、上、右、底四边�
 
 页面展示会变成这样
 
-![flutterui_stack]
+![flutterui_stack](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_stackerror.png)
 
 fit设置expand则默认子组件的代销扩伸到整个stack的大小。即红色底占满了屏幕 同时遮挡了后驾到父视图上的视图
 
