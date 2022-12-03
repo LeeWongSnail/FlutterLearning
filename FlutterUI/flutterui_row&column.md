@@ -32,7 +32,7 @@ child: Row(
 ```
 再来看下展示效果:
 
-![flutterui_row]()
+![flutterui_row](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_row.png)
 
 然后我们分别来介绍下这几个常见的属性:
 
@@ -92,7 +92,7 @@ crossAxisAlignment: CrossAxisAlignment.end,
 
 Column与Row的属性基本是一致的，但是Row的主轴方向和Column刚好相反，
 
-![flutterui_column]()
+![flutterui_column](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_column.png)
 
 由于Column和Row刚好相反，因此对于direction相关从垂直方向去考虑。
 
@@ -144,7 +144,7 @@ child: Column(
 
 效果如下:
 
-![flutterui_rowembed]()
+![flutterui_rowembed](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_rowembed.png)
 
 我们可以看到，第一层Column中设置了`mainAxisSize: MainAxisSize.max`是有效的因为在垂直方向，的确是占据了整个屏幕的高度，但是第二层Column的`mainAxisSize: MainAxisSize.max`实际没有其作用，其实际高度就是子控件的高度。
 
@@ -170,4 +170,4 @@ child: Column(
 ```
 实际效果如下:
 
-![flutterui_columnembedfixexpand]()
+![flutterui_columnembedfixexpand](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_columnembedfixexpand.png)
