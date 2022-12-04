@@ -4,6 +4,8 @@
 
 Flutter慢慢的已经成为移动端开发人员的一项必备技能，之前有简单的学过一些UI控件，但是没有系统的集成到项目中使用，所以了解的东西也仅限于一部分api的学习。公司的其他APP团队都已经开始使用flutter了，因此为了更好的学习，这里计划按照其他APP的内容自己学习下flutter。
 
+![学习路线图](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/Flutter.png)
+
 ### 现有项目集成Flutter
 
 这里主要参考的是[官方文档](https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen),当然在这个过程中也遇到了很多问题。这里也是一个记录。
