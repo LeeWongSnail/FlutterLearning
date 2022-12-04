@@ -42,5 +42,12 @@ demo在[这里](https://github.com/LeeWongSnail/FlutterLearning/tree/main/Demo/F
 
 [constraints](https://github.com/LeeWongSnail/FlutterLearning/blob/main/FlutterUI/Constraints.md)
 
+[FLex&Expand](https://github.com/LeeWongSnail/FlutterLearning/blob/main/FlutterUI/FLex%26Expand.md)
 
-[demo]()
+[flutterui_flowwrap](https://github.com/LeeWongSnail/FlutterLearning/blob/main/FlutterUI/flutterui_flowwrap.md)
+
+[flutterui_row&column](https://github.com/LeeWongSnail/FlutterLearning/blob/main/FlutterUI/flutterui_row%26column.md)
+
+[stack&Positioned](https://github.com/LeeWongSnail/FlutterLearning/blob/main/FlutterUI/stack%26Positioned.md)
+
+[demo](https://github.com/LeeWongSnail/FlutterLearning/tree/main/Demo/flutterui)
