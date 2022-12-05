@@ -65,18 +65,60 @@ class _ProgressRouteState extends State<ProgressRoute> with SingleTickerProvider
       appBar: AppBar(
         title: Text('Box'),
       ),
-      body: ConstrainedBox(
-        constraints: BoxConstraints.expand(),
-        child: Stack(
-          alignment: Alignment.center,
-          fit: StackFit.expand,
-          clipBehavior: Clip.hardEdge,
-          children: [
-            Positioned(child: Text('I am LeeWong'), left: 20,),
-            Container(child: Text('Hello World', style: TextStyle(color: Colors.white),), color: Colors.red,),
-            Positioned(child: Text('Your Friends'), top: 20,),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            height: 120,
+            width: 120,
+            color: Colors.blue.shade50,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: FlutterLogo(size: 30,),
+            ),
+          ),
+          Container(
+            color: Colors.blue.shade50,
+            child: Align(
+              widthFactor: 4,
+              heightFactor: 4,
+              alignment: Alignment.topCenter,
+              child: FlutterLogo(size: 30,),
+            ),
+          ),
+          Container(
+            color: Colors.blue.shade50,
+            child: Align(
+              widthFactor: 4,
+              heightFactor: 4,
+              alignment: Alignment(0,-1), // (Alignment.x*childWidth/2+childWidth/2, Alignment.y*childHeight/2+childHeight/2)
+              child: FlutterLogo(
+                size: 30,
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.green.shade50,
+            width: 120,
+            height: 120,
+            child: Align(
+              alignment: FractionalOffset(0,0),
+              child: FlutterLogo(
+                size: 30,
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.yellow.shade50,
+            width: 120,
+            height: 120,
+            child: Center(
+              widthFactor: 1,
+              heightFactor: 1,
+              child: Text('这段文本',),
+            ),
+          ),
+        ],
       ),
     );
   }
