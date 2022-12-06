@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 void main() {
   runApp(const MyApp());
@@ -25,39 +26,74 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: DecoratedBoxDemo(),
+      home: TransformPage(),
     );
   }
 }
 
-class DecoratedBoxDemo extends StatelessWidget {
+class TransformPage extends StatelessWidget {
+  const TransformPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          // 背景渐变
-          gradient: LinearGradient(colors: [Colors.red, Colors.orange]),
-          // 3像素圆角
-          borderRadius: BorderRadius.circular(10.0),
-          shape: BoxShape.rectangle,
-          backgroundBlendMode: BlendMode.darken,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black54,
-              offset: Offset(2.0, 2.0),
-              blurRadius: 4.0,
-            )
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 18.0),
-          child: Text('Login', style: TextStyle(color: Colors.white)),
-        ),
+    return Scaffold(
+      appBar: AppBar(title: Text('Transform'),),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(padding: EdgeInsets.only(top: 100, left: 100)),
+          Container(
+            color: Colors.black,
+            child: Transform(
+              alignment: Alignment.bottomLeft,
+              transform: Matrix4.skewY(0.3),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.deepOrange,
+                child: Text('Hello World'),
+              ),
+            ),
+          ),
+          // 平移
+          Padding(padding: EdgeInsets.only(top: 50)),
+          DecoratedBox(decoration: BoxDecoration(color: Colors.red), child: Transform.translate(offset: Offset(-20.0, -5.0), child: Text('Hello World'),),),
+          Padding(padding: EdgeInsets.only(top: 50)),
+          // 旋转
+          DecoratedBox(decoration: BoxDecoration(color: Colors.red), child: Transform.rotate(angle: math.pi/2, child: Text('Hello World'),),),
+          Padding(padding: EdgeInsets.only(top: 50)),
+          // 缩放
+          DecoratedBox(decoration: BoxDecoration(color: Colors.red), child: Transform.scale(scale: 1.5, child: Text('Hello World'),),),
+          Padding(padding: EdgeInsets.only(top: 50)),
+          RotatedBox(quarterTurns: 1, child: Text('Hello World'),),
+          Padding(padding: EdgeInsets.only(top: 50)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              DecoratedBox(
+                  decoration:BoxDecoration(color: Colors.red),
+                  child: Transform.scale(scale: 1.5,
+                      child: Text("Hello world")
+                  )
+              ),
+              Text("你好", style: TextStyle(color: Colors.green, fontSize: 18.0),)
+            ],
+          ),
+          Padding(padding: EdgeInsets.only(top: 50)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DecoratedBox(decoration: BoxDecoration(
+                color: Colors.red
+              ), child: RotatedBox(quarterTurns: 1,child: Text('Hello World'),),),
+              Text('你好，世界',style: TextStyle(color: Colors.green, fontSize: 18),),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
+
 
 
 
