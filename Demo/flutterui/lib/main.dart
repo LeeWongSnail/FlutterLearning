@@ -25,10 +25,86 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const ProgressRoute(),
+      home: const LayoutBuilderRoute(),
     );
   }
 }
+
+
+class ResponsiveColumn extends StatelessWidget {
+  const ResponsiveColumn({Key? key, required this.children}) : super(key: key);
+
+  final List <Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+      if (constraints.maxWidth < 200) {
+        // 最大的宽度小于200 则显示单列
+        return Column(children: children, mainAxisSize: MainAxisSize.min,);
+      } else {
+        // 最大宽度大于200 则展示双列
+        // 这里需要将数据拆分成一行两列的形式
+        var _children = <Widget>[];
+        for(var i = 0; i < children.length; i = i+2) {
+          // 需要判断是否还存在下一个
+          if (i+1 < children.length) {
+            // 还有下一个
+            _children.add(Row(
+              children: [children[i], children[i+1]],
+              mainAxisSize: MainAxisSize.min,
+            ));
+          } else {
+            _children.add(children[i]);
+          }
+        }
+        return Column(children: _children, mainAxisSize: MainAxisSize.min,);
+      }
+    });
+  }
+}
+
+
+class LayoutBuilderRoute extends StatelessWidget {
+  const LayoutBuilderRoute({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var _children = List.filled(6, Text('A'));
+    // Column 在本市李忠在水平方向的最大宽度为屏幕的宽度
+    return Column(
+      children: [
+        Container(width: 100, height: 100,),
+        SizedBox(width: 190, child: ResponsiveColumn(children: _children,),),
+        ResponsiveColumn(children: _children),
+        LayoutLogPrint(child: Text('AA')), // flutter: Text("AA"): BoxConstraints(0.0<=w<=393.0, 0.0<=h<=Infinity)
+      ],
+    );
+  }
+}
+
+class LayoutLogPrint<T> extends StatelessWidget {
+  const LayoutLogPrint ({Key? key, this.tag, required this.child}) : super(key: key);
+
+  final Widget child;
+  final T? tag; // 指定的日志
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (_, constraints) {
+      assert(() {
+        print('${tag ?? key ?? child}: $constraints');
+        return true;
+      }());
+      return child;
+    });
+  }
+}
+
+
+
+
+
 
 class ProgressRoute extends StatefulWidget {
   const ProgressRoute({Key? key}) : super(key: key);
@@ -65,61 +141,7 @@ class _ProgressRouteState extends State<ProgressRoute> with SingleTickerProvider
       appBar: AppBar(
         title: Text('Box'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            height: 120,
-            width: 120,
-            color: Colors.blue.shade50,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: FlutterLogo(size: 30,),
-            ),
-          ),
-          Container(
-            color: Colors.blue.shade50,
-            child: Align(
-              widthFactor: 4,
-              heightFactor: 4,
-              alignment: Alignment.topCenter,
-              child: FlutterLogo(size: 30,),
-            ),
-          ),
-          Container(
-            color: Colors.blue.shade50,
-            child: Align(
-              widthFactor: 4,
-              heightFactor: 4,
-              alignment: Alignment(0,-1), // (Alignment.x*childWidth/2+childWidth/2, Alignment.y*childHeight/2+childHeight/2)
-              child: FlutterLogo(
-                size: 30,
-              ),
-            ),
-          ),
-          Container(
-            color: Colors.green.shade50,
-            width: 120,
-            height: 120,
-            child: Align(
-              alignment: FractionalOffset(0,0),
-              child: FlutterLogo(
-                size: 30,
-              ),
-            ),
-          ),
-          Container(
-            color: Colors.yellow.shade50,
-            width: 120,
-            height: 120,
-            child: Center(
-              widthFactor: 1,
-              heightFactor: 1,
-              child: Text('这段文本',),
-            ),
-          ),
-        ],
-      ),
+      body: Container(),
     );
   }
 }
