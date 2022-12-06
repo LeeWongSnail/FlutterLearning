@@ -34,7 +34,7 @@ Widget build(BuildContext context) {
 
 展示效果为:
 
-![flutterui_decorationbox]()
+![flutterui_decorationbox](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_decorationbox.png)
 
 ## DecorationBox
 
