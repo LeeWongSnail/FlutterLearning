@@ -4,7 +4,7 @@
 
 我们先附上这一节的整体效果图:
 
-![flutterui_align]()
+![flutterui_align](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_align.png)
 
 ## Align
 

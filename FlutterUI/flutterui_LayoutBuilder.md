@@ -64,7 +64,7 @@ class LayoutBuilderRoute extends StatelessWidget {
 
 我们先来看下上述代码的展示效果:
 
-![flutterui_layoutbuilder]()
+![flutterui_layoutbuilder](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_layoutbuilder.png)
 
 实际上在我们需要自定义布局时，LayoutBuilder非常实用，实用起来也很简单，他类似于iOS中的collectionView,而我们的LayoutBuilder类似于CollectionView的Layout。 它主要有两个实用场景:
 

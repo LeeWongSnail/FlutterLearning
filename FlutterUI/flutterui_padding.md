@@ -28,4 +28,4 @@ Padding这个控件主要是用来设置子控件的上下左右间距。其主�
 
 下面是上述代码执行效果:
 
-![flutterui_padding]()
+![flutterui_padding](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_padding.png)
