@@ -71,6 +71,25 @@ ClipPath(clipper: _TrianglePath(),child: Container(
   color: Colors.red,
   child: FlutterLogo(),
 ),),
+
+
+class _TrianglePath extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.close();
+    return path;
+  }
+
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}
 ```
 
 ![flutterui_clip_custom](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_clip_custom.png)
