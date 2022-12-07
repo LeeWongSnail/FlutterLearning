@@ -38,57 +38,19 @@ class TransformPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Transform'),),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(padding: EdgeInsets.only(top: 100, left: 100)),
-          Container(
-            color: Colors.black,
-            child: Transform(
-              alignment: Alignment.bottomLeft,
-              transform: Matrix4.skewY(0.3),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.deepOrange,
-                child: Text('Hello World'),
-              ),
-            ),
-          ),
-          // 平移
-          Padding(padding: EdgeInsets.only(top: 50)),
-          DecoratedBox(decoration: BoxDecoration(color: Colors.red), child: Transform.translate(offset: Offset(-20.0, -5.0), child: Text('Hello World'),),),
-          Padding(padding: EdgeInsets.only(top: 50)),
-          // 旋转
-          DecoratedBox(decoration: BoxDecoration(color: Colors.red), child: Transform.rotate(angle: math.pi/2, child: Text('Hello World'),),),
-          Padding(padding: EdgeInsets.only(top: 50)),
-          // 缩放
-          DecoratedBox(decoration: BoxDecoration(color: Colors.red), child: Transform.scale(scale: 1.5, child: Text('Hello World'),),),
-          Padding(padding: EdgeInsets.only(top: 50)),
-          RotatedBox(quarterTurns: 1, child: Text('Hello World'),),
-          Padding(padding: EdgeInsets.only(top: 50)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              DecoratedBox(
-                  decoration:BoxDecoration(color: Colors.red),
-                  child: Transform.scale(scale: 1.5,
-                      child: Text("Hello world")
-                  )
-              ),
-              Text("你好", style: TextStyle(color: Colors.green, fontSize: 18.0),)
-            ],
-          ),
-          Padding(padding: EdgeInsets.only(top: 50)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              DecoratedBox(decoration: BoxDecoration(
-                color: Colors.red
-              ), child: RotatedBox(quarterTurns: 1,child: Text('Hello World'),),),
-              Text('你好，世界',style: TextStyle(color: Colors.green, fontSize: 18),),
-            ],
-          ),
-        ],
+      body: Container(
+        // 设置外边距
+        margin: EdgeInsets.only(top: 50, left: 120),
+        // 设置固定大小
+        constraints: BoxConstraints.tightFor(width: 200, height: 150),
+        // 设置背景
+        decoration: BoxDecoration(
+          gradient: RadialGradient(colors: [Colors.red, Colors.orange], center: Alignment.topLeft, radius: .8),
+          boxShadow: [BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4)],
+        ),
+        alignment: Alignment.center, // child 在父视图中的位置
+        transform: Matrix4.rotationZ(.2), // transform是Matrix4类型的
+        child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 40),),
       ),
     );
   }
