@@ -38,10 +38,9 @@ class ScaffoldRoute extends StatefulWidget {
   _ScaffoldRouteState createState() => _ScaffoldRouteState();
 }
 
-class _ScaffoldRouteState extends State<ScaffoldRoute> {
+class _ScaffoldRouteState extends State<ScaffoldRoute>  with SingleTickerProviderStateMixin{
 
   int _selectIndex = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +56,6 @@ class _ScaffoldRouteState extends State<ScaffoldRoute> {
           }, icon: Icon(Icons.dashboard, color: Colors.white,));
         },),
         backgroundColor: Colors.yellow,
-        bottom: ,
       ),
       drawer: CustomDrawer(),
       bottomNavigationBar: BottomNavigationBar(
@@ -120,3 +118,90 @@ class CustomDrawer extends StatelessWidget {
   }
 }
 
+class TopTabPage2 extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => TopTabPage2State();
+}
+
+class TopTabPage2State extends State<TopTabPage2>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: TabBar(
+          tabs: [
+            Tab(
+              icon: Icon(Icons.directions_car),
+              text: "汽车",
+            ),
+            Tab(
+              icon: Icon(Icons.directions_bike),
+              text: "自行车",
+            ),
+            Tab(
+              icon: Icon(Icons.directions_boat),
+              text: '轮船',
+            ),
+          ],
+          controller: tabController,
+        ),
+      ),
+      body: TabBarView(
+        children: [
+          Center(child: Text('汽车')),
+          Center(child: Text('自行车')),
+          Center(child: Text('轮船')),
+        ],
+        controller: tabController,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+}
+
+class TopTabPage1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('交通工具'),
+          bottom: TabBar(tabs: [
+            Tab(
+              icon: Icon(Icons.directions_car),
+              text: "汽车",
+            ),
+            Tab(
+              icon: Icon(Icons.directions_bike),
+              text: "自行车",
+            ),
+            Tab(
+              icon: Icon(Icons.directions_boat),
+              text: '轮船',
+            ),
+          ]),
+        ),
+        body: TabBarView(children: [
+          Center(child: Text('汽车')),
+          Center(child: Text('自行车')),
+          Center(child: Text('轮船')),
+        ]),
+      ),
+    );
+  }
+}
