@@ -56,7 +56,7 @@ class _ScrollControllerTestRouteState extends State<ScrollControllerTestRoute> {
         setState(() {
           showToTopBtn = false;
         });
-      } else if (_scrollController.offset >= 1000 && showToTopBtn) {
+      } else if (_scrollController.offset >= 1000 && showToTopBtn == false) {
         setState(() {
           showToTopBtn = true;
         });
