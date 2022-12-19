@@ -27,101 +27,68 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: ScrollNotificationTestRoute(),
+      home: AnimatedListRoute(),
     );
   }
 }
 
-class ScrollControllerTestRoute extends StatefulWidget {
-  const ScrollControllerTestRoute({Key? key}) : super(key: key);
+class AnimatedListRoute extends StatefulWidget {
+  const AnimatedListRoute({Key? key}) : super(key: key);
 
   @override
-  _ScrollControllerTestRouteState createState() => _ScrollControllerTestRouteState();
+  _AnimatedListRouteState createState() => _AnimatedListRouteState();
 }
 
-class _ScrollControllerTestRouteState extends State<ScrollControllerTestRoute> {
+class _AnimatedListRouteState extends State<AnimatedListRoute> {
 
-  ScrollController _scrollController = ScrollController();
+  var data = <String>[];
 
-  // 是否展示回到顶部按钮
-  bool showToTopBtn = false;
+  int counter = 5;
+
+  final globalKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
+    for(var i = 0; i < counter; i++) {
+      data.add('${i+1}');
+    }
     // TODO: implement initState
     super.initState();
-    _scrollController.addListener(() {
-      print(_scrollController.offset);
-      if (_scrollController.offset < 1000 && showToTopBtn) {
-        setState(() {
-          showToTopBtn = false;
-        });
-      } else if (_scrollController.offset >= 1000 && showToTopBtn == false) {
-        setState(() {
-          showToTopBtn = true;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _scrollController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('滚动监听'),),
-      body: Scrollbar(
-        child: ListView.builder(itemBuilder: (context, index){
-          return ListTile(title: Text('$index'),);
-        }, itemCount: 100,itemExtent: 50, controller: _scrollController,),
+    return Scaffold(appBar: AppBar(title: Text('animate'),),
+      body: Stack(
+        children: [
+          AnimatedList(itemBuilder: (BuildContext context, int index, Animation<double> animation){
+            return FadeTransition(opacity: animation, child: buildItem(context, index),);
+          }, key: globalKey, initialItemCount: data.length,),
+          buildAddBtn(),
+        ],
       ),
-      floatingActionButton: !showToTopBtn ? null : FloatingActionButton(onPressed: (){
-        _scrollController.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
-      }, child: Icon(Icons.arrow_upward),),
     );
+  }
+
+  Widget buildAddBtn() {
+    return Positioned(child: FloatingActionButton(child: Icon(Icons.add), onPressed: () {
+      data.add('${++counter}');
+      globalKey.currentState!.insertItem(data.length - 1);
+      print("添加 ${counter}");
+    },), bottom: 30, left: 0, right: 0,);
+  }
+
+  Widget buildItem(context, index) {
+    String char = data[index];
+    return ListTile(
+      key: ValueKey(char),
+      title: Text(char),
+      trailing: IconButton(icon: Icon(Icons.delete), onPressed: () => onDelete(context, index),),
+    );
+  }
+
+  void onDelete(context, index) {
+
   }
 }
 
-class ScrollNotificationTestRoute extends StatefulWidget {
-  const ScrollNotificationTestRoute({Key? key}) : super(key: key);
-
-  @override
-  _ScrollNotificationTestRouteState createState() => _ScrollNotificationTestRouteState();
-}
-
-class _ScrollNotificationTestRouteState extends State<ScrollNotificationTestRoute> {
-
-  String _progress = "0%"; // 保存进度百分比
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('滚动监听'),),
-      body: Scrollbar(child: NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification notification) {
-          double progress = notification.metrics.pixels/notification.metrics.maxScrollExtent;
-
-          setState(() {
-            _progress = "${(progress * 100).toInt()}%";
-          });
-
-          print("bottom edge: ${notification.metrics.extentAfter == 0}");
-
-          return false;
-        },
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            ListView.builder(itemBuilder: (context, index){
-              return ListTile(title: Text("$index"),);
-            }, itemCount: 100, itemExtent: 50,),
-            CircleAvatar(radius: 30, child: Text(_progress),backgroundColor: Colors.black54,),
-          ],
-        ),
-      ),),
-    );
-  }
-}
