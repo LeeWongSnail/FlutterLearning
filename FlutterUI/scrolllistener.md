@@ -169,4 +169,4 @@ class _ScrollNotificationTestRouteState extends State<ScrollNotificationTestRout
 }
 ```
 
-![]()
+![](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_scrolllistenerprogress.gif)
