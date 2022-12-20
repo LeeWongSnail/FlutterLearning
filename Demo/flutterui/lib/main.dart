@@ -27,76 +27,142 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: AnimatedListRoute(),
+      home: InfiniteGridView(),
     );
   }
 }
 
-class AnimatedListRoute extends StatefulWidget {
-  const AnimatedListRoute({Key? key}) : super(key: key);
+
+class SliverGridDelegateCrossAxisExtent extends StatefulWidget {
+  const SliverGridDelegateCrossAxisExtent({Key? key}) : super(key: key);
 
   @override
-  _AnimatedListRouteState createState() => _AnimatedListRouteState();
+  _SliverGridDelegateCrossAxisExtentState createState() => _SliverGridDelegateCrossAxisExtentState();
 }
 
-class _AnimatedListRouteState extends State<AnimatedListRoute> {
+class _SliverGridDelegateCrossAxisExtentState extends State<SliverGridDelegateCrossAxisExtent> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: Text('GridView'),),
+      body: GridView.extent(
+        maxCrossAxisExtent: 120.0,
+        childAspectRatio: 2.0,
+        children: <Widget>[
+          Icon(Icons.ac_unit),
+          Icon(Icons.airport_shuttle),
+          Icon(Icons.all_inclusive),
+          Icon(Icons.beach_access),
+          Icon(Icons.cake),
+          Icon(Icons.free_breakfast),
+        ],
+      ),);
+  }
+}
 
-  var data = <String>[];
 
-  int counter = 5;
+class InfiniteGridView extends StatefulWidget {
+  const InfiniteGridView({Key? key}) : super(key: key);
 
-  final globalKey = GlobalKey<AnimatedListState>();
+  @override
+  _InfiniteGridViewState createState() => _InfiniteGridViewState();
+}
+
+class _InfiniteGridViewState extends State<InfiniteGridView> {
+
+  List<IconData> _icons = []; // 保存icon数据
 
   @override
   void initState() {
-    for(var i = 0; i < counter; i++) {
-      data.add('${i+1}');
-    }
     // TODO: implement initState
     super.initState();
+    _retrieveIcons();
+  }
+
+  void _retrieveIcons() {
+   Future.delayed(Duration(milliseconds: 200)).then((e){
+     setState(() {
+       _icons.addAll([
+         Icons.ac_unit,
+         Icons.airport_shuttle,
+         Icons.all_inclusive,
+         Icons.beach_access,
+         Icons.cake,
+         Icons.free_breakfast,
+       ]);
+     });
+   }) ;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('animate'),),
-      body: Stack(
-        children: [
-          AnimatedList(itemBuilder: (BuildContext context, int index, Animation<double> animation){
-            return FadeTransition(opacity: animation, child: buildItem(context, index),);
-          }, key: globalKey, initialItemCount: data.length,),
-          buildAddBtn(),
+    return Scaffold(appBar: AppBar(title: Text('GridView'),),
+      body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // 每行三列
+        childAspectRatio: 1.0 // 宽高比
+      ), itemBuilder: (context, index) {
+        if(index == _icons.length - 1 && _icons.length < 200) {
+          _retrieveIcons();
+        }
+        return Icon(_icons[index]);
+      }, itemCount: _icons.length,),
+    );
+  }
+}
+
+
+class GrideViewRoute extends StatefulWidget {
+  const GrideViewRoute({Key? key}) : super(key: key);
+
+  @override
+  _GrideViewRouteState createState() => _GrideViewRouteState();
+}
+
+class _GrideViewRouteState extends State<GrideViewRoute> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: Text('GridView'),),
+        body: GridView(children: [
+          Icon(Icons.ac_unit),
+          Icon(Icons.airport_shuttle),
+          Icon(Icons.all_inclusive),
+          Icon(Icons.beach_access),
+          Icon(Icons.cake),
+          Icon(Icons.free_breakfast,color: Colors.red,)
+        ],gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3, // 横轴展示的widget个数
+          mainAxisSpacing: 20, //主轴方向的间距。
+          childAspectRatio: 1.0, // 子元素在横轴长度和主轴长度的比例。
+          crossAxisSpacing: 5, // 横轴方向子元素的间距。
+        ),)
+      );
+  }
+}
+
+class GridViewCountRoute extends StatefulWidget {
+  const GridViewCountRoute({Key? key}) : super(key: key);
+
+  @override
+  _GridViewCountRouteState createState() => _GridViewCountRouteState();
+}
+
+class _GridViewCountRouteState extends State<GridViewCountRoute> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('GridViewCount'),),
+      body: GridView.count(
+        crossAxisCount: 3,
+        childAspectRatio: 1.0,
+        children: <Widget>[
+          Icon(Icons.ac_unit),
+          Icon(Icons.airport_shuttle),
+          Icon(Icons.all_inclusive),
+          Icon(Icons.beach_access),
+          Icon(Icons.cake),
+          Icon(Icons.free_breakfast),
         ],
       ),
     );
-  }
-
-  Widget buildAddBtn() {
-    return Positioned(child: FloatingActionButton(child: Icon(Icons.add), onPressed: () {
-      data.add('${++counter}');
-      globalKey.currentState!.insertItem(data.length - 1);
-      print("添加 ${counter}");
-    },), bottom: 30, left: 0, right: 0,);
-  }
-
-  Widget buildItem(context, index) {
-    String char = data[index];
-    return ListTile(
-      key: ValueKey(char),
-      title: Text(char),
-      trailing: IconButton(icon: Icon(Icons.delete), onPressed: () => onDelete(context, index),),
-    );
-  }
-
-  void onDelete(context, index) {
-      setState(() {
-        globalKey.currentState!.removeItem(index, (context, animation) {
-          var item = buildItem(context, index);
-          print('删除 ${data[index]}');
-          data.removeAt(index);
-          return FadeTransition(opacity: CurvedAnimation(parent: animation, curve: Interval(0.5, 1.0)),
-            child: SizeTransition(sizeFactor: animation,axisAlignment: 0.0,child: item,),);
-        }, duration: Duration(milliseconds: 200));
-      });
   }
 }
 
