@@ -88,7 +88,15 @@ class _AnimatedListRouteState extends State<AnimatedListRoute> {
   }
 
   void onDelete(context, index) {
-
+      setState(() {
+        globalKey.currentState!.removeItem(index, (context, animation) {
+          var item = buildItem(context, index);
+          print('删除 ${data[index]}');
+          data.removeAt(index);
+          return FadeTransition(opacity: CurvedAnimation(parent: animation, curve: Interval(0.5, 1.0)),
+            child: SizeTransition(sizeFactor: animation,axisAlignment: 0.0,child: item,),);
+        }, duration: Duration(milliseconds: 200));
+      });
   }
 }
 
