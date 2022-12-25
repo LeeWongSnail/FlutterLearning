@@ -1,4 +1,4 @@
-#GridView
+# GridView
 
 类似我们在iOS中使用的CollectionView,在collectionView中我们最主要的是看Layout,在flutter中也有一个对应的gridDelegate,用来设置布局。
 
