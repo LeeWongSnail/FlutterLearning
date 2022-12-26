@@ -2,7 +2,7 @@
 
 首先我们看下这个空间的样式:
 
-![flutterui_tabbarView]()
+![flutterui_tabbarView](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_tabbarview.gif)
 
 下面我们再来看下这个空间的声明
 
