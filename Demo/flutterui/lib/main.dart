@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
+import 'dart:math';
 import 'package:english_words/english_words.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,164 +29,131 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: PersistentHeaderRoute(),
+      home: SliverFlexibleHeaderRoute(),
     );
   }
 }
 
 
-class PersistentHeaderRoute extends StatelessWidget {
-  const PersistentHeaderRoute({Key? key}) : super(key: key);
+class SliverFlexibleHeaderRoute extends StatelessWidget {
+  const SliverFlexibleHeaderRoute({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sliver PersistentHeader'),),
+      appBar: AppBar(
+        title: Text('SliverFlexibleHeader'),
+      ),
       body: CustomScrollView(
+        // 为了能使CustomScrollView拉到顶部时还能继续下拉，必须让physics支持弹性效果
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
+          SliverFlexibleHeader(
+            visibleExtent: 200,
+            builder: (context, availableHeight) {
+              return GestureDetector(
+                onTap: () => print('tap'),
+                child: Image(
+                  image: AssetImage("/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp"),
+                  width: 50,
+                  height: availableHeight,
+                  alignment: Alignment.bottomCenter,
+                  fit: BoxFit.cover,
+                ),
+              );
+            },
+          ),
           buildSliverList(),
-          SliverPersistentHeader(pinned: true, delegate: SliverHeaderDelegate(maxHeight: 80, minHeight: 50, child: buildHeader(1))),
-          buildSliverList(),
-          SliverPersistentHeader(pinned: true, delegate: SliverHeaderDelegate.fixHeight(height: 50, child: buildHeader(2))),
-          buildSliverList(20)
         ],
       ),
     );
   }
 
-  Widget buildSliverList([int count = 5]) {
-    return SliverFixedExtentList(delegate: SliverChildBuilderDelegate((context, index) {
+  Widget buildSliverList() {
+    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
       return ListTile(title: Text('$index'),);
-    }, childCount: 50), itemExtent: 50, );
-  }
-
-  Widget buildHeader(int i) {
-    return Container(
-      color: Colors.lightBlue.shade100,
-      alignment: Alignment.centerLeft,
-      child: Text('PersistentHeader $i'),
-    );
+    }, childCount: 50), itemExtent: 56);
+    return listView;
   }
 }
 
+typedef SliverFlexibleHeaderBuilder = Widget Function(BuildContext context, double maxExtent); //, ScrollDirection direction
 
-typedef SliverHeaderBuilder = Widget Function(BuildContext context, double shrinkOffset, bool overlapContent);
+class SliverFlexibleHeader extends StatelessWidget {
+  const SliverFlexibleHeader({Key? key, this.visibleExtent = 0, required this.builder}) : super(key: key);
 
-class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final SliverFlexibleHeaderBuilder builder;
+  final double visibleExtent;
 
-  final double maxHeight;
-  final double minHeight;
-  final SliverHeaderBuilder builder;
-
-  SliverHeaderDelegate({
-    required this.maxHeight, this.minHeight = 0, required Widget child,
-  }) : builder = ((a, b, c) => child),
-        assert(minHeight <= maxHeight && minHeight >= 0);
-
-
-  SliverHeaderDelegate.fixHeight({
-    required double height,
-    required Widget child,
-  }) : builder = ((a,b,c) => child),
-        maxHeight = height,
-        minHeight = height;
-
-  SliverHeaderDelegate.builder({
-    required this.maxHeight,
-    this.minHeight = 0,
-    required this.builder,
-  });
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
-    Widget child = builder(context, shrinkOffset, overlapsContent);
-    assert(() {
-      if(child.key != null) {
-        print('${child.key}: shrink: $shrinkOffset，overlaps:$overlapsContent');
-      }
-      return true;
-    }());
-    return SizedBox.expand(child: child,);
-  }
-
-  @override
-  // TODO: implement maxExtent
-  double get maxExtent => maxHeight;
-  @override
-  // TODO: implement minExtent
-  double get minExtent => minHeight;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
-    return oldDelegate.maxExtent != maxExtent || oldDelegate.minExtent != minExtent;
-  }
-}
-
-
-class CustomScrollViewWidget extends StatefulWidget {
-  const CustomScrollViewWidget({Key? key}) : super(key: key);
-
-  @override
-  _CustomScrollViewWidgetState createState() => _CustomScrollViewWidgetState();
-}
-
-class _CustomScrollViewWidgetState extends State<CustomScrollViewWidget> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: CustomScrollView(slivers: [
-        // SliverToBoxAdapter(
-        //   child: SizedBox(height: 300,child: PageView(
-        //     children: [Text('1'),Text('2')],
-        //   ),),
-        // ),
-        SliverAppBar(pinned: true,expandedHeight: 250.0,
-          flexibleSpace: FlexibleSpaceBar(title: Text('SliverAppBar'), background: Image.asset("/Users/LeeWong/StudioProjects/flutter_ui/images/light.png", fit: BoxFit.cover,),),),
-        SliverPadding(padding: EdgeInsets.all(8.0), sliver: SliverGrid(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 10.0, crossAxisSpacing: 10.0, childAspectRatio: 4.0),
-          delegate: SliverChildBuilderDelegate((BuildContext context, int index){
-            return Container(alignment: Alignment.center, color: Colors.cyan[100*(index%9)], child: Text('gridItem $index'),);
-          }, childCount: 20),
-        ),),
-        SliverFixedExtentList(delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-            return Container(
-              alignment: Alignment.center, color: Colors.lightBlue[100*index%9],child: Text('list item $index'),
-            );
-          },
-          childCount: 20,
-        ), itemExtent: 50.0)
-      ],),
+    return _SliverFlexibleHeader(child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+      return builder(context, constraints.maxHeight);
+    },), visibleExtent: visibleExtent,);
+  }
+}
+
+
+class _SliverFlexibleHeader extends SingleChildRenderObjectWidget {
+  const _SliverFlexibleHeader({Key? key, required Widget child, this.visibleExtent = 0}) : super(key: key, child: child);
+
+  final double visibleExtent;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    // TODO: implement createRenderObject
+    return  FlexibleHeaderRenderSliver(visibleExtent);
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, covariant FlexibleHeaderRenderSliver renderObject) {
+    // TODO: implement updateRenderObject
+    renderObject._visibleExtent = visibleExtent;
+  }
+}
+
+class FlexibleHeaderRenderSliver extends RenderSliverSingleBoxAdapter {
+  FlexibleHeaderRenderSliver(double visibleExtent) : _visibleExtent = visibleExtent;
+
+  double _lastOverScroll = 0;
+  double _lastScrollOffset = 0;
+  late double _visibleExtent = 0;
+
+  set visibleExtent(double value) {
+    if(_visibleExtent != value) {
+      _lastOverScroll = 0;
+      _visibleExtent = value;
+      markNeedsLayout();
+    }
+  }
+
+  @override
+  void performLayout() {
+    // TODO: implement performLayout
+    if(child == null || (constraints.scrollOffset > _visibleExtent)) {
+      geometry = SliverGeometry(scrollExtent: _visibleExtent);
+      return;
+    }
+
+    double overScroll = constraints.overlap < 0 ? constraints.overlap.abs() : 0;
+    var scrollOffset = constraints.scrollOffset;
+
+    double paintExtent = _visibleExtent + overScroll - constraints.scrollOffset;
+    paintExtent = min(paintExtent, constraints.remainingPaintExtent);
+
+    child!.layout(constraints.asBoxConstraints(maxExtent: paintExtent), parentUsesSize: false);
+
+    double layoutExtent = min(_visibleExtent, paintExtent);
+
+    geometry = SliverGeometry(
+        scrollExtent: layoutExtent,
+        paintOrigin: -overScroll,
+        paintExtent: paintExtent,
+        maxPaintExtent: paintExtent,
+        layoutExtent: layoutExtent
     );
   }
 }
 
 
-//
-// class CustomScrollView extends StatefulWidget {
-//   const CustomScrollView({Key? key}) : super(key: key);
-//
-//   @override
-//   _CustomScrollViewState createState() => _CustomScrollViewState();
-// }
-//
-// class _CustomScrollViewState extends State<CustomScrollView> {
-//   @override
-//   Widget build(BuildContext context) {
-//     var listView = ListView.builder(itemBuilder: (_, index) {
-//       return ListTile(title: Text('${index}'),);
-//     }, itemCount: 20,);
-//     return Scaffold(
-//       appBar: AppBar(title: Text('CustomScrollView'),),
-//       body: Column(
-//         children: [
-//           Expanded(child: listView,),
-//           Divider(color: Colors.grey,),
-//           Expanded(child: listView)
-//         ],
-//       )
-//     );
-//   }
-// }
+
