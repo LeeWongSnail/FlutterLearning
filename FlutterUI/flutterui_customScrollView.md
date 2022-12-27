@@ -67,6 +67,7 @@ Scrollable 本身不具有绘制内容的能力，它通过构造注入的 viewp
   }
 }
 ```
+![flutterui_doublelistview](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_doublelistview.gif)
 这当前页面中，我们有两个listView,这两个listView各占屏幕的一半，我们发现直接这么写的话这两个listView是互相独立的，当手势在组件对应的响应区域时，对应的组件会响应滚动手势，但是这两个listView是无法关联的(当第一个listView滚动到底部时自动触发下一个listView的滚动)
 
 我们知道一个完整的可滚动组件包含: Scrollable, ViewPort, Sliver. 所以在上面的例子中两个list各自拥有自己的Scrollable, ViewPort, Sliver。因此无法关联。
@@ -355,7 +356,7 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
 效果如下:
 
-![flutterui_SliverPersistentHeader]()
+![flutterui_SliverPersistentHeader](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_PersistentHeaderRoute.gif)
 
 `注意`:
 
