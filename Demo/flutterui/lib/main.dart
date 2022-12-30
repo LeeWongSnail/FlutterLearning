@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SnapAppBar(),
+      home: NestedTabBarView(),
     );
   }
 }
@@ -83,7 +83,7 @@ class NestedTabBarView extends StatelessWidget {
               sliver: SliverAppBar(
                 title: Text('商城'),
                 floating: true,
-                snap: true, // 是否固定在顶部
+                snap: false, // 是否固定在顶部
                 forceElevated: innerBoxIsScrolled,
                 bottom: TabBar(
                   tabs: _tabs.map((e) => Tab(text: e,)).toList(),
@@ -178,53 +178,6 @@ class _SnapAppBar2State extends State<SnapAppBar2> {
 
 
 
-
-class SnapAppBar extends StatelessWidget {
-  const SnapAppBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                floating: true,
-                snap: false,
-                expandedHeight: 200,
-                forceElevated: innerBoxIsScrolled,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.asset(
-                    "/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-
-          ];
-        },
-        body: Builder(builder: (BuildContext context) {
-          return CustomScrollView(
-            slivers: [
-              SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
-              buildSliverList(),
-            ],
-          );
-        },),
-      ),
-    );
-  }
-
-  Widget buildSliverList() {
-    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
-      return ListTile(title: Text('$index'),);
-    }, childCount: 100), itemExtent: 56);
-    return listView;
-  }
-}
-//
 //
 // class SnapAppBar extends StatelessWidget {
 //   const SnapAppBar({Key? key}) : super(key: key);
@@ -235,21 +188,28 @@ class SnapAppBar extends StatelessWidget {
 //       body: NestedScrollView(
 //         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
 //           return [
-//             SliverAppBar(
-//               floating: true,
-//               snap: true,
-//               expandedHeight: 200,
-//               forceElevated: innerBoxIsScrolled,
-//               flexibleSpace: FlexibleSpaceBar(
-//                 background: Image.asset("/Users/LeeWong/StudioProjects/flutter_ui/images/sea.jpeg", fit: BoxFit.cover,),
+//             SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+//               sliver: SliverAppBar(
+//                 floating: true,
+//                 snap: true,
+//                 expandedHeight: 200,
+//                 forceElevated: innerBoxIsScrolled,
+//                 flexibleSpace: FlexibleSpaceBar(
+//                   background: Image.asset(
+//                     "/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp",
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
 //               ),
-//             )
+//             ),
+//
 //           ];
 //         },
 //         body: Builder(builder: (BuildContext context) {
 //           return CustomScrollView(
 //             slivers: [
-//               buildSliverList()
+//               SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+//               buildSliverList(),
 //             ],
 //           );
 //         },),
@@ -264,3 +224,43 @@ class SnapAppBar extends StatelessWidget {
 //     return listView;
 //   }
 // }
+
+
+class SnapAppBar extends StatelessWidget {
+  const SnapAppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              expandedHeight: 200,
+              forceElevated: innerBoxIsScrolled,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.asset("/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp", fit: BoxFit.cover,),
+              ),
+            )
+          ];
+        },
+        body: Builder(builder: (BuildContext context) {
+          return CustomScrollView(
+            slivers: [
+              buildSliverList()
+            ],
+          );
+        },),
+      ),
+    );
+  }
+
+  Widget buildSliverList() {
+    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
+      return ListTile(title: Text('$index'),);
+    }, childCount: 100), itemExtent: 56);
+    return listView;
+  }
+}

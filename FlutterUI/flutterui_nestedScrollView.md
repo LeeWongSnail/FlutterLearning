@@ -70,13 +70,13 @@ class NestedTabBarView extends StatelessWidget {
 ```
 效果如下:
 
-![flutterui_nestedScrollView]()
+![flutterui_nestedScrollView](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_nestedscrollView.gif)
 
 ## 原理
 
 首先我们来看下结构图:
 
-![flutterui_NestedScrollView]()
+![flutterui_NestedScrollView](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_NestedScrollView.jpeg)
 
 - NestedScrollView 整体就是一个 CustomScrollView
 
@@ -109,7 +109,61 @@ const SliverAppBar({
 - `floating` 和` snap：floating` 为 true 时，`SliverAppBar` 不会固定到顶部，当用户向上滑动到顶部时，SliverAppBar 也会滑出可视窗口。当用户反向滑动时，SliverAppBar 的 snap 为 true 时，此时无论 SliverAppBar 已经滑出屏幕多远，都会立即回到屏幕顶部；但如果 snap 为 false，则 SliverAppBar 只有当向下滑到边界时才会重新回到屏幕顶部。
 即：在floating未true时
 当snap为true:
-![]()
-当snap为false时
-![]()
+![](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_sliverappbar_snaptrue.gif)
 
+当snap为false时
+![](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_sliverappbar_snapfalse.gif)
+
+
+##  嵌套 TabBarView
+
+```dart
+
+class NestedTabBarView extends StatelessWidget {
+  const NestedTabBarView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _tabs = ['猜你喜欢','今日特价', '发现更多'];
+    return DefaultTabController(length: _tabs.length, child: Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                title: Text('商城'),
+                floating: true,
+                snap: true, // 是否固定在顶部
+                forceElevated: innerBoxIsScrolled,
+                bottom: TabBar(
+                  tabs: _tabs.map((e) => Tab(text: e,)).toList(),
+                ),
+              ),),
+          ];
+        },
+        body: TabBarView(
+          children: _tabs.map((e) {
+            return Builder(builder: (BuildContext context) {
+              return CustomScrollView(
+                key: PageStorageKey(e),
+                slivers: [
+                  SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+                  SliverPadding(padding: EdgeInsets.all(8),sliver: buildSliverList(),),
+                ],
+              );
+            });
+          }).toList(),
+        ),
+      ),
+    ));
+  }
+
+  Widget buildSliverList() {
+    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
+      return ListTile(title: Text('$index'),);
+    }, childCount: 100), itemExtent: 56);
+    return listView;
+  }
+}
+
+```
