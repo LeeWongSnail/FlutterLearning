@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: NestedScrollViewRoute(),
+      home: SnapAppBar(),
     );
   }
 }
@@ -191,7 +191,7 @@ class SnapAppBar extends StatelessWidget {
             SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
                 floating: true,
-                snap: true,
+                snap: false,
                 expandedHeight: 200,
                 forceElevated: innerBoxIsScrolled,
                 flexibleSpace: FlexibleSpaceBar(

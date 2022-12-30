@@ -88,3 +88,28 @@ class NestedTabBarView extends StatelessWidget {
 
 - NestedScrollView 核心功能就是通过一个协调器来协调外部可滚动组件和内部可滚动组件的滚动，以使滑动效果连贯统一，协调器的实现原理就是分别给内外可滚动组件分别设置一个 controller，然后通过这两个controller 来协调控制它们的滚动。
 
+## SliverAppBar
+
+SliverAppBar是AppBar的Sliver版本，一般与NestedScrollView一起使用，SliverApp相较于AppBar也有一些特有的功能
+
+```dart
+const SliverAppBar({
+  this.collapsedHeight, // 收缩起来的高度
+  this.expandedHeight,// 展开时的高度
+  this.pinned = false, // 是否固定
+  this.floating = false, //是否漂浮
+  this.snap = false, // 当漂浮时，此参数才有效
+  bool forceElevated //导航栏下面是否一直显示阴影
+  ...
+})
+```
+
+- `SliverAppBar` 在 NestedScrollView 中随着用户的滑动是可以收缩和展开的，因此我们需要分别指定收缩和展开时的高度。
+- `pinned` 为`true` 时 `SliverAppBar` 会固定在 `NestedScrollView` 的顶部，行为 和 `SliverPersistentHeader` 的 `pinned`功能一致。
+- `floating` 和` snap：floating` 为 true 时，`SliverAppBar` 不会固定到顶部，当用户向上滑动到顶部时，SliverAppBar 也会滑出可视窗口。当用户反向滑动时，SliverAppBar 的 snap 为 true 时，此时无论 SliverAppBar 已经滑出屏幕多远，都会立即回到屏幕顶部；但如果 snap 为 false，则 SliverAppBar 只有当向下滑到边界时才会重新回到屏幕顶部。
+即：在floating未true时
+当snap为true:
+![]()
+当snap为false时
+![]()
+
