@@ -167,3 +167,4 @@ class NestedTabBarView extends StatelessWidget {
 }
 
 ```
+![](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_sliverappbar_nestedTabbar.gif)
