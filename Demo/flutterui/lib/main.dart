@@ -29,62 +29,141 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SliverFlexibleHeaderRoute(),
+      home: NestedScrollViewRoute(),
     );
   }
 }
 
-class ExtraInfoBoxConstraints<T> extends BoxConstraints {
-  ExtraInfoBoxConstraints(this.extra, BoxConstraints constraints):
-      super(minWidth: constraints.minWidth, minHeight: constraints.minHeight,
-      maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight);
 
-  // 额外的信息
-  final T extra;
-
-  @override
-  bool operator ==(Object other) {
-    // TODO: implement ==
-    if (identical(this, other)) return true;
-    return other is ExtraInfoBoxConstraints && super == other && other.extra == extra;
-  }
-
-  @override
-  // TODO: implement hashCode
-  int get hashCode => hashValues(super.hashCode, extra);
-}
-
-
-class SliverFlexibleHeaderRoute extends StatelessWidget {
-  const SliverFlexibleHeaderRoute({Key? key}) : super(key: key);
+class NestedScrollViewRoute extends StatelessWidget {
+  const NestedScrollViewRoute({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('SliverFlexibleHeader'),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              title: Text('NestedScrollView'),
+              pinned: true,
+              forceElevated: innerBoxIsScrolled,
+            ),
+            buildSliverList()
+          ];
+        },
+        body: ListView.builder(itemBuilder: (BuildContext context, int index){
+          return SizedBox(
+            height: 50,
+            child: Center(child: Text('Item $index'),),
+          );
+        }, padding:  EdgeInsets.all(8), physics: ClampingScrollPhysics(), itemCount: 30,),
       ),
-      body: CustomScrollView(
-        // 为了能使CustomScrollView拉到顶部时还能继续下拉，必须让physics支持弹性效果
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        slivers: [
-          SliverFlexibleHeader(
-            visibleExtent: 200,
-            builder: (context, availableHeight) {
-              return GestureDetector(
-                onTap: () => print('tap'),
-                child: Image(
-                  image: AssetImage("/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp"),
-                  width: 50,
-                  height: availableHeight,
-                  alignment: Alignment.bottomCenter,
+    );
+  }
+  Widget buildSliverList() {
+    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
+      return ListTile(title: Text('$index'),);
+    }, childCount: 5), itemExtent: 56);
+    return listView;
+  }
+}
+
+class NestedTabBarView extends StatelessWidget {
+  const NestedTabBarView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _tabs = ['猜你喜欢','今日特价', '发现更多'];
+    return DefaultTabController(length: _tabs.length, child: Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                title: Text('商城'),
+                floating: true,
+                snap: true, // 是否固定在顶部
+                forceElevated: innerBoxIsScrolled,
+                bottom: TabBar(
+                  tabs: _tabs.map((e) => Tab(text: e,)).toList(),
+                ),
+              ),),
+          ];
+        },
+        body: TabBarView(
+          children: _tabs.map((e) {
+            return Builder(builder: (BuildContext context) {
+              return CustomScrollView(
+                key: PageStorageKey(e),
+                slivers: [
+                  SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+                  SliverPadding(padding: EdgeInsets.all(8),sliver: buildSliverList(),),
+                ],
+              );
+            });
+          }).toList(),
+        ),
+      ),
+    ));
+  }
+
+  Widget buildSliverList() {
+    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
+      return ListTile(title: Text('$index'),);
+    }, childCount: 100), itemExtent: 56);
+    return listView;
+  }
+}
+
+
+class SnapAppBar2 extends StatefulWidget {
+  const SnapAppBar2({Key? key}) : super(key: key);
+
+  @override
+  _SnapAppBar2State createState() => _SnapAppBar2State();
+}
+
+class _SnapAppBar2State extends State<SnapAppBar2> {
+
+  late SliverOverlapAbsorberHandle handle;
+
+  void onOverlapChanged() {
+    print(handle.layoutExtent);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+          handle = NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+          handle.removeListener(onOverlapChanged);
+          handle.addListener(onOverlapChanged);
+
+          return [
+            SliverOverlapAbsorber(handle: handle, sliver: SliverAppBar(
+              floating: true,
+              snap: true,
+              expandedHeight: 200,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.asset(
+                  "/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp",
                   fit: BoxFit.cover,
                 ),
-              );
-            },
-          ),
-          buildSliverList(),
-        ],
+              ),
+              forceElevated: innerBoxIsScrolled,
+            ),)
+          ];
+        },
+        body: LayoutBuilder(builder: (BuildContext context, cons) {
+          return CustomScrollView(
+            slivers: [
+              SliverOverlapInjector(handle: handle),
+              buildSliverList()
+            ],
+          );
+        },),
       ),
     );
   }
@@ -92,87 +171,96 @@ class SliverFlexibleHeaderRoute extends StatelessWidget {
   Widget buildSliverList() {
     var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
       return ListTile(title: Text('$index'),);
-    }, childCount: 50), itemExtent: 56);
+    }, childCount: 100), itemExtent: 56);
     return listView;
   }
 }
 
-typedef SliverFlexibleHeaderBuilder = Widget Function(BuildContext context, double maxExtent); //, ScrollDirection direction
 
-class SliverFlexibleHeader extends StatelessWidget {
-  const SliverFlexibleHeader({Key? key, this.visibleExtent = 0, required this.builder}) : super(key: key);
 
-  final SliverFlexibleHeaderBuilder builder;
-  final double visibleExtent;
+
+class SnapAppBar extends StatelessWidget {
+  const SnapAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _SliverFlexibleHeader(child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-      return builder(context, constraints.maxHeight);
-    },), visibleExtent: visibleExtent,);
-  }
-}
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                floating: true,
+                snap: true,
+                expandedHeight: 200,
+                forceElevated: innerBoxIsScrolled,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Image.asset(
+                    "/Users/leewong/Documents/Code/Flutter/Project/FlutterLearning/Demo/flutterui/images/icon.webp",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
 
-
-class _SliverFlexibleHeader extends SingleChildRenderObjectWidget {
-  const _SliverFlexibleHeader({Key? key, required Widget child, this.visibleExtent = 0}) : super(key: key, child: child);
-
-  final double visibleExtent;
-
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    // TODO: implement createRenderObject
-    return  FlexibleHeaderRenderSliver(visibleExtent);
-  }
-
-  @override
-  void updateRenderObject(BuildContext context, covariant FlexibleHeaderRenderSliver renderObject) {
-    // TODO: implement updateRenderObject
-    renderObject._visibleExtent = visibleExtent;
-  }
-}
-
-class FlexibleHeaderRenderSliver extends RenderSliverSingleBoxAdapter {
-  FlexibleHeaderRenderSliver(double visibleExtent) : _visibleExtent = visibleExtent;
-
-  double _lastOverScroll = 0;
-  double _lastScrollOffset = 0;
-  late double _visibleExtent = 0;
-
-  set visibleExtent(double value) {
-    if(_visibleExtent != value) {
-      _lastOverScroll = 0;
-      _visibleExtent = value;
-      markNeedsLayout();
-    }
-  }
-
-  @override
-  void performLayout() {
-    // TODO: implement performLayout
-    if(child == null || (constraints.scrollOffset > _visibleExtent)) {
-      geometry = SliverGeometry(scrollExtent: _visibleExtent);
-      return;
-    }
-
-    double overScroll = constraints.overlap < 0 ? constraints.overlap.abs() : 0;
-    var scrollOffset = constraints.scrollOffset;
-
-    double paintExtent = _visibleExtent + overScroll - constraints.scrollOffset;
-    paintExtent = min(paintExtent, constraints.remainingPaintExtent);
-
-    child!.layout(constraints.asBoxConstraints(maxExtent: paintExtent), parentUsesSize: false);
-
-    double layoutExtent = min(_visibleExtent, paintExtent);
-
-    geometry = SliverGeometry(
-        scrollExtent: layoutExtent,
-        paintOrigin: -overScroll,
-        paintExtent: paintExtent,
-        maxPaintExtent: paintExtent,
-        layoutExtent: layoutExtent
+          ];
+        },
+        body: Builder(builder: (BuildContext context) {
+          return CustomScrollView(
+            slivers: [
+              SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+              buildSliverList(),
+            ],
+          );
+        },),
+      ),
     );
   }
+
+  Widget buildSliverList() {
+    var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
+      return ListTile(title: Text('$index'),);
+    }, childCount: 100), itemExtent: 56);
+    return listView;
+  }
 }
-
-
+//
+//
+// class SnapAppBar extends StatelessWidget {
+//   const SnapAppBar({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: NestedScrollView(
+//         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+//           return [
+//             SliverAppBar(
+//               floating: true,
+//               snap: true,
+//               expandedHeight: 200,
+//               forceElevated: innerBoxIsScrolled,
+//               flexibleSpace: FlexibleSpaceBar(
+//                 background: Image.asset("/Users/LeeWong/StudioProjects/flutter_ui/images/sea.jpeg", fit: BoxFit.cover,),
+//               ),
+//             )
+//           ];
+//         },
+//         body: Builder(builder: (BuildContext context) {
+//           return CustomScrollView(
+//             slivers: [
+//               buildSliverList()
+//             ],
+//           );
+//         },),
+//       ),
+//     );
+//   }
+//
+//   Widget buildSliverList() {
+//     var listView = SliverFixedExtentList(delegate: SliverChildBuilderDelegate((_, index) {
+//       return ListTile(title: Text('$index'),);
+//     }, childCount: 100), itemExtent: 56);
+//     return listView;
+//   }
+// }
