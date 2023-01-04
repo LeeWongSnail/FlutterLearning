@@ -30,184 +30,87 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage('WillPopScope'),
+      home: InheritedWidgetTestRoute(),
     );
   }
 }
 
-
-class WillPopScopeTestRoute extends StatefulWidget {
-  const WillPopScopeTestRoute({Key? key}) : super(key: key);
-
+class InheritedWidgetTestRoute extends StatefulWidget {
   @override
-  _WillPopScopeTestRouteState createState() => _WillPopScopeTestRouteState();
+  _InheritedWidgetTestRouteState createState() => _InheritedWidgetTestRouteState();
 }
 
-class _WillPopScopeTestRouteState extends State<WillPopScopeTestRoute> {
-
-  // 上次点击时间
-  DateTime? _lastPressAt;
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(child: Container(alignment: Alignment.center, child: Text('连续点击退出'),), onWillPop: () async {
-      if (_lastPressAt == null || DateTime.now().difference(_lastPressAt!) > Duration(seconds: 1)) {
-        _lastPressAt = DateTime.now();
-        return false;
-      }
-      return true;
-    });
-  }
-}
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() {
-    // 跳转到other 页面在该页面做返回按键点击的处理
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return OtherPage();
-    }));
-  }
+class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: WillPopScope(
-        // 回调函数，返回true 就pop 返回false 就不处理
-        onWillPop: () async {
-          var result = await showCupertinoDialog(
-              context: context,
-              builder: (context) {
-                return CupertinoAlertDialog(
-                    title: const Text('再次点击就退出该页面'),
-                    content: const Text('退出会返回到上一个页面'),
-                    actions: [
-                      CupertinoDialogAction(
-                        isDestructiveAction: true,
-                        child: const Text('确定'),
-                        onPressed: () => Navigator.of(context).pop(true),
-                      ),
-                      CupertinoDialogAction(
-                        isDefaultAction: true,
-                        child: const Text('取消'),
-                        onPressed: () => Navigator.of(context).pop(false),
-                      )
-                    ]);
-              });
-          return result;
-        },
-
-        child: Center(
+      appBar: AppBar(title: Text('Inherited'),),
+      body: Center(
+        child: ShareDataWidget( //使用ShareDataWidget
+          data: count,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: _TestWidget(),//子widget中依赖ShareDataWidget
               ),
-              Text(
-                'jump to other page',
-                style: Theme.of(context).textTheme.headline4,
-              ),
+              ElevatedButton(
+                child: Text("Increment"),
+                //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
+                onPressed: () => setState(() => ++count),
+              )
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'jump to other page',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
+class _TestWidget extends StatefulWidget {
+  @override
+  __TestWidgetState createState() => __TestWidgetState();
+}
 
-class OtherPage extends StatelessWidget {
-  OtherPage({Key? key}) : super(key: key);
-  DateTime? firstTime;
-
+class __TestWidgetState extends State<_TestWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('hello,jack ma!'),
-        ),
-        body: WillPopScope(
-          onWillPop: () async {
-            var result = await showCupertinoDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                      title: const Text('再次点击就退出该页面'),
-                      content: const Text('退出会返回到上一个页面'),
-                      actions: [
-                        CupertinoDialogAction(
-                          isDestructiveAction: true,
-                          child: const Text('确定'),
-                          onPressed: () => Navigator.of(context).pop(true),
-                        ),
-                        CupertinoDialogAction(
-                          isDefaultAction: true,
-                          child: const Text('取消'),
-                          onPressed: () => Navigator.of(context).pop(false),
-                        )
-                      ]);
-                });
-            return result;
-          },
-          child: const Center(child: Text('I AM TOHER PAGE')),
-        ));
+    //使用InheritedWidget中的共享数据
+    return Text(ShareDataWidget.of(context)!.data.toString());
+    // return Text('count');
+  }
+
+  @override //下文会详细介绍。
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    //父或祖先widget中的InheritedWidget改变(updateShouldNotify返回true)时会被调用。
+    //如果build中没有依赖InheritedWidget，则此回调不会被调用。
+    print("Dependencies change");
   }
 }
 
+class ShareDataWidget extends InheritedWidget {
+  ShareDataWidget({
+    Key? key,
+    required this.data,
+    required Widget child,
+  }) : super(key: key, child: child);
 
-// class OtherPage extends StatelessWidget {
-//   OtherPage({Key? key}) : super(key: key);
-//   DateTime? firstTime;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: const Text('hello,jack ma!'),
-//         ),
-//         body: WillPopScope(
-//           onWillPop: () async {
-//             //如果时间是空的就把新的时间给firstTime
-//             if (firstTime == null) {
-//               firstTime = DateTime.now();
-//             } else {
-//               if (DateTime.now().difference(firstTime!) <
-//                   const Duration(milliseconds: 600)) {
-//                 return true;
-//               } else {
-//                 // 如果两次的间隔时间大于600毫秒的话，就重新赋值给firstTime
-//                 firstTime = DateTime.now();
-//               }
-//             }
-//
-//             return false;
-//           },
-//           child: const Center(child: Text('I AM TOHER PAGE')),
-//         ));
-//   }
-// }
+  final int data; //需要在子树中共享的数据，保存点击次数
+
+  //定义一个便捷方法，方便子树中的widget获取共享数据
+  static ShareDataWidget? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ShareDataWidget>();
+    // return context.getElementForInheritedWidgetOfExactType<ShareDataWidget>()?.widget as ShareDataWidget ;
+  }
+
+  //该回调决定当data发生变化时，是否通知子树中依赖data的Widget重新build
+  @override
+  bool updateShouldNotify(ShareDataWidget old) {
+    return old.data != data;
+  }
+}
+
