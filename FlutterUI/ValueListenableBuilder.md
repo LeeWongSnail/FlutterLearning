@@ -71,7 +71,7 @@ class _ValueListenableState extends State<ValueListenableRoute> {
 
 效果如下
 
-![flutterui_valuelistenablebuilder]()
+![flutterui_valuelistenablebuilder](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_valuelistenable.gif)
 
 - `valueListenable: _counter,` 表示我们要监听的是_counter，同时_counter是ValueNotifier<Int>类型的这个类似是ValueListenable<T>的子类型。
 
