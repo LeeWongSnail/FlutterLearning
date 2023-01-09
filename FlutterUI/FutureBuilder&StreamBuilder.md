@@ -70,7 +70,7 @@ class _FutureBuilderRouteState extends State<FutureBuilderRoute> {
 
 效果如下:
 
-![flutterui_ FutureBuilder]()
+![flutterui_ FutureBuilder](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_futurebuilder.gif)
 
 这里我们通过延时操作来模拟从网络获取数据，示例代码中我们可以看到，在builder方法中，我们可以通过snapshot.connectionState获取请求的状态，其状态有一下几种
 
@@ -152,4 +152,4 @@ class _StreamBuilderRouteState extends State<StreamBuilderRoute> {
 ```
 效果如下
 
-![flutterui_streamBuilder]
+![flutterui_streamBuilder](https://github.com/LeeWongSnail/FlutterLearning/raw/main/res/flutterui_streambuilder.gif)
