@@ -30,54 +30,54 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilderRoute(),
+      home: StreamBuilderRoute(),
     );
   }
 }
 
-//
-// class StreamBuilderRoute extends StatefulWidget {
-//   const StreamBuilderRoute({Key? key}) : super(key: key);
-//
-//   @override
-//   _StreamBuilderRouteState createState() => _StreamBuilderRouteState();
-// }
-//
-// class _StreamBuilderRouteState extends State<StreamBuilderRoute> {
-//
-//   Stream<int> counter() {
-//     return Stream.periodic(Duration(seconds: 1), (i) {
-//       return i;
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('StreamBuilder'),),
-//       body: StreamBuilder<int>(
-//         stream: counter(), //
-//         //initialData: ,// a Stream<int> or null
-//         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-//           if (snapshot.hasError)
-//             return Text('Error: ${snapshot.error}');
-//           switch (snapshot.connectionState) {
-//             case ConnectionState.none:
-//               return Text('没有Stream');
-//             case ConnectionState.waiting:
-//               return Text('等待数据...');
-//             case ConnectionState.active:
-//               return Text('active: ${snapshot.data}');
-//             case ConnectionState.done:
-//               return Text('Stream 已关闭');
-//           }
-//
-//         },
-//       ),
-//     );
-//   }
-// }
-//
+
+class StreamBuilderRoute extends StatefulWidget {
+  const StreamBuilderRoute({Key? key}) : super(key: key);
+
+  @override
+  _StreamBuilderRouteState createState() => _StreamBuilderRouteState();
+}
+
+class _StreamBuilderRouteState extends State<StreamBuilderRoute> {
+
+  Stream<int> counter() {
+    return Stream.periodic(Duration(seconds: 1), (i) {
+      return i;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('StreamBuilder'),),
+      body: StreamBuilder<int>(
+        stream: counter(), //
+        //initialData: ,// a Stream<int> or null
+        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+          if (snapshot.hasError)
+            return Text('Error: ${snapshot.error}');
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return Text('没有Stream');
+            case ConnectionState.waiting:
+              return Text('等待数据...');
+            case ConnectionState.active:
+              return Text('active: ${snapshot.data}');
+            case ConnectionState.done:
+              return Text('Stream 已关闭');
+          }
+
+        },
+      ),
+    );
+  }
+}
+
 
 class FutureBuilderRoute extends StatefulWidget {
   const FutureBuilderRoute({Key? key}) : super(key: key);
